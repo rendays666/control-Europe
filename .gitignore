@@ -1,0 +1,12 @@
+# Rojo build output
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
+*.rbxl.lock
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
