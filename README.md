@@ -18,11 +18,27 @@ rojo build -o AutoManager.rbxl     # atau: rojo serve, lalu connect dari Studio
 3. Buat `ModuleScript` di tiap folder dengan nama sama seperti file di `src/AutoManager/<folder>/`
    (tanpa `.lua`) lalu salin isinya.
 
+## Jalankan via executor (loadstring)
+
+```lua
+loadstring(game:HttpGet("https://raw.githubusercontent.com/rendays666/control-Europe/main/loader.lua"))()
+```
+
+`loader.lua` mengunduh tiap modul dari GitHub, mengompilasinya dengan `loadstring`, lalu
+menjalankan `Boot.lua` — jalur yang sama dengan versi Studio (`init.client.lua`).
+
+- Menjalankan ulang aman: GUI lama dihapus otomatis.
+- Mau pakai branch/fork lain: set `getgenv().AutoManagerBase = "https://raw.githubusercontent.com/<user>/<repo>/<branch>/src/AutoManager/"` sebelum menjalankan loader.
+- GitHub raw di-cache ±5 menit, jadi perubahan terbaru bisa tertunda sebentar.
+- Syarat executor: `game:HttpGet` (atau `request`), `loadstring`, dan `require` untuk modul game.
+
 ## Struktur
 
 ```
+loader.lua                 Entry point executor (loadstring)
 src/AutoManager/
-├─ init.client.lua        Entry point — hanya merakit modul
+├─ init.client.lua        Entry point Studio (menyiapkan `load`)
+├─ Boot.lua               Merakit semua modul (dipakai Studio & executor)
 ├─ Core/
 │  ├─ Config.lua          Warna, default, interval, nama remote (EDIT DI SINI)
 │  ├─ Context.lua         Objek `ctx` yang dibagikan ke semua modul + ctx.every()
